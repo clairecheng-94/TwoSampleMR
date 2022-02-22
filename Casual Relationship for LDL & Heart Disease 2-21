@@ -1,0 +1,34 @@
+library(tidyverse)
+
+library(TwoSampleMR)
+
+ao<- available_outcomes()
+
+exposure_dat <- extract_instruments("ieu-a-300")
+
+outcome_dat <- extract_outcome_data(snps = exposure_dat$SNP, outcomes="ieu-a-7")
+
+dat <- harmonise_data(exposure_dat, outcome_dat)
+
+ res <- mr(dat)
+
+ res
+ 
+ id.exposure id.outcome                              outcome
+1   ieu-a-300    ieu-a-7 Coronary heart disease || id:ieu-a-7
+2   ieu-a-300    ieu-a-7 Coronary heart disease || id:ieu-a-7
+3   ieu-a-300    ieu-a-7 Coronary heart disease || id:ieu-a-7
+4   ieu-a-300    ieu-a-7 Coronary heart disease || id:ieu-a-7
+5   ieu-a-300    ieu-a-7 Coronary heart disease || id:ieu-a-7
+                         exposure                    method nsnp         b
+1 LDL cholesterol || id:ieu-a-300                  MR Egger   79 0.5069341
+2 LDL cholesterol || id:ieu-a-300           Weighted median   79 0.4041713
+3 LDL cholesterol || id:ieu-a-300 Inverse variance weighted   79 0.4144651
+4 LDL cholesterol || id:ieu-a-300               Simple mode   79 0.4875750
+5 LDL cholesterol || id:ieu-a-300             Weighted mode   79 0.5318082
+          se         pval
+1 0.07786885 6.926478e-09
+2 0.04447423 1.010981e-19
+3 0.05051330 2.304597e-16
+4 0.08012148 4.069135e-08
+5 0.07746405 1.420274e-09
