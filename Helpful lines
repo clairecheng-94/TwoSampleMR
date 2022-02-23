@@ -1,0 +1,17 @@
+View()
+#Helps view data 
+  #For smaller data sets 
+  
+head()
+#Shows the top five lines
+
+#P value comes before odds ratio 
+  #P value < 5 x 10^-8 to be signifcant 
+  
+#Beta is the linear regression of the model 
+#OR and Beta can be relative to your pheotypes 
+
+#MAF --> typically Minor Allele Frequency 
+#EAF --> effective allele frequency 
+  #effect allele is used to caculate the effect size 
+  #other allele 
