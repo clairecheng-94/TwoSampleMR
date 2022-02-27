@@ -1,0 +1,20 @@
+##### USE OF LDL Vs Conary Disease Data ###########
+library(TwoSampleMR)
+
+#### Funnel Plot #####
+x <- mr_singlesnp(
++     dat,
++     parameters = default_parameters(),
++     single_method = "mr_wald_ratio",
++     all_method = c("mr_ivw", "mr_egger_regression")
++ )
+ mr_funnel_plot(x) 
+ 
+#### Forest Plot ####
+mr_forest_plot(x, exponentiate = FALSE)
+#use the prior function dated x for this function 
+
+###Leave-one-out analysis Plot###
+x <- mr_leaveoneout(dat, parameters = default_parameters())
+mr_leaveoneout_plot(x) 
+
