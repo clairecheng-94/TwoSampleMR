@@ -18,3 +18,9 @@ mr_forest_plot(x, exponentiate = FALSE)
 x <- mr_leaveoneout(dat, parameters = default_parameters())
 mr_leaveoneout_plot(x) 
 
+####Scatter Plot######
+z <- exposure_dat[ ,("beta.exposure")]
+View(outcome_dat)
+y <- outcome_dat[ ,("beta.outcome")]
+C <-plot(z, y, main = "LDL beta values vs CHD beta values", xlab = "LDL beta values", ylab = "CHD beta values", pch=19, frame= FALSE)
+abline(lm (z~y, data= C), col="blue")
