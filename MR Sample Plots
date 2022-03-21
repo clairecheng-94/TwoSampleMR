@@ -24,3 +24,8 @@ View(outcome_dat)
 y <- outcome_dat[ ,("beta.outcome")]
 C <-plot(z, y, main = "LDL beta values vs CHD beta values", xlab = "LDL beta values", ylab = "CHD beta values", pch=19, frame= FALSE)
 abline(lm (z~y, data= C), col="blue")
+
+
+pdf("mr_scatter_plot.pdf")
+mr_scatter_plot(res,dat)
+dev.off()
