@@ -15,3 +15,7 @@ head()
 #EAF --> effective allele frequency 
   #effect allele is used to caculate the effect size 
   #other allele 
+
+##Moving file from local to cluster
+scp met-d-Omega_3.vcf.gz cfc85413@sapelo2.gacrc.uga.edu:/home/cfc85413/PUFAS
+    #Reverse the order if it is sapleo to local computer
