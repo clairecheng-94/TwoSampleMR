@@ -1,0 +1,22 @@
+ssh sa 
+
+##To enter the interactive node of the cluster 
+interact -c 1 --mem4G
+
+
+##To remove coloumns (example: IEU file) 
+awk -F "\t" {'print $1, $2, $3, $4, $5,$10'} IEU.txt > filename 
+awk -F ":" {'print $1, $2, $3, $4,$5, $10'} file name > filename2
+
+##To rename a column name 
+sed -e '1s/ID/SNP/' filename > filename3
+
+##To realign the Columns 
+column -t filename > filename 
+
+#Adding names to the final four columns 
+R
+x<-read.table("test11.txt", skip=1)
+colnames(x) <- c("#CHROM","POS","SNP","REF","ALT", "ES", "SE", "BETA", "SS", "ID")
+write.table(x, file="test.out.txt", sep="\t", quote=FALSE, col.names=T, row.names=F) 
+
