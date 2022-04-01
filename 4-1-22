@@ -7,5 +7,9 @@ x<-read.table("/home/cfc85413/PUFAS/IEU.out.txt", header=FALSE, sep="\t")
 +  p[i] <- 1/(10^x[i,8])
 + }
 x$newColumn <-p 
+colnames(x) <- c("#CHROM","POS","SNP","REF","ALT", "ES", "SE", "LP", "SS", "ID", "P values")
+write.table(x, file="dfieu.out.txt", sep="\t", quote=FALSE, col.names=T, row.names=F)
+
+
 
 
