@@ -1,0 +1,11 @@
+##Creating P values '
+x<-read.table("/home/cfc85413/PUFAS/IEU.out.txt", header=FALSE, sep="\t")
+> colnames(x) <- c("#CHROM","POS","SNP","REF","ALT", "ES", "SE", "LP", "SS", "ID")
+
+ p <- 1:length(x$LP)
+ for (i in (1:length(x$LP))){
++  p[i] <- 1/(10^x[i,8])
++ }
+x$newColumn <-p 
+
+
