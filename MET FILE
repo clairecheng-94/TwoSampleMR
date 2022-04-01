@@ -1,0 +1,1 @@
+awk -F "\t" '$1!~/##/!'{'print $1'} met-d-Omega_3.vcf > met4 
