@@ -1,0 +1,2 @@
+##Remove all ## rows 
+awk -F "##" {'print $1'} met-d-Omega_3.vcf 
