@@ -1,3 +1,7 @@
 awk -F "##" '$1!~/t/{print $1}' met-d-Omega_3.vcf > MET1.txt
 awk -F "\t" '$1!~/##/{print $1,$2,$3,$4,$5,$8, $9, $10}' met-d-Omega_3.vcf > MET4.txt
 
+
+
+
+awk -F "\t" '$1!~/##/{print $1,$2,$3,$4,$5,$8,$10}' met-d-Omega_3.vcf| awk -v FS=':' -v OFS='\t' '{print $1, $2,$3,$4,$5,$6}'|less
