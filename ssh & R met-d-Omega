@@ -1,0 +1,27 @@
+####### ssh COMMANDS ########
+#removing rows, renaming, separating, and etc in one command
+awk -F '\t' '$1!~/#/{print $1"\t"$2"\t"$3"\t"$4"\t"$5"\t"$8"\t"$10}'  met-d-Omega_3.vcf |awk -v FS=':' -v OFS='\t' '{print $1, $2, $3, $4, $5,$6}' | awk -v FS=':' -v OFS='\t' '{print $1, $2, $3, $4, $5,$6}' | awk -v FS='\t' -v OFS='\t' '{print $1, $2,$3, $4, $5,$6, $7,$8, $9}' |  awk -F '\t' 'NR==1{print "CHR\tPOS\tSNP\tREF\tALT\tAF\tES\tSE\tLP\tSS"}NR>1{print $0}' > C3Test.txt 
+
+####### R COMMANDS ########
+
+#Read table 
+df<-read.table('/home/cfc85413/PUFAS/met-d-Omega_3.vcf', header=FALSE, sep= "\t")
+
+#Subsetting, removing any unnessary coloumns (ie: filter, quality, and etc) 
+df1 <- subset(df, select=c(V1, V2, V3, V4,V5, V8, V10)) 
+
+#Renaming columns 
+colnames(x) <- c("#CHROM","POS","SNP","REF","ALT","AF", "ES", "SE", "LP", "SS", "EZ")
+
+#Separting the last column 
+
+#It is important to have a high memory in order for this function to go through with big data files so one can increase either 2 or 4G to improve functions
+interact -c 2 --mem 4G 
+
+library("tidyr") 
+
+x<- df2 %>% separate(V10, c("ES","SE", "LP", "SS", "EZ"), ":")
+
+#Converting LP --> P Values 
+
+
