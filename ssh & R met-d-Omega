@@ -22,6 +22,42 @@ library("tidyr")
 
 x<- df2 %>% separate(V10, c("ES","SE", "LP", "SS", "EZ"), ":")
 
-#Converting LP --> P Values 
+#Converting LP --> P Values  
+
+#it is important you convert the coloumns into numerics ]
+x$LP<- as.numeric(x$LP
+
+#Subset the coloumn 
+LP<-x[ , c('LP')]
+
+#For loop 
+p <- 1:length(x$LP)
+for (i in (1:length(x$LP))){
+p[i]<-1/(10^x[i,9])
+}
+
+head(p)
+
+#Add this coloumn 
+x$newColumn <- p
+head(x) 
+
+#Rename 
+colnames(x) <- c("#CHROM","POS","SNP","REF","ALT","AF", "ES", "SE", "LP", "SS", "EZ", "PVALUES") 
+
+#Removing LP
+x$LP<- NULL
+head(x) 
+
+
+ 
+
+
+
+
+
+
+
+
 
 
