@@ -47,7 +47,11 @@ colnames(x) <- c("#CHROM","POS","SNP","REF","ALT","AF", "ES", "SE", "LP", "SS", 
 
 #Removing LP
 x$LP<- NULL
-head(x) 
+head(x)  
+
+
+#Removing 'AF' and renaming for MR
+awk -v FS='AF=' -v OFS='\t' '{print $1, $2, $3, $4, $5, $6, $7, $8, $9, $10}' C3Test.txt |  awk -F '\t' 'NR==1{print "CHR\tPOS\tSNP\tREF\tALT\tAF\tBETA\tSE\tLP\tSS"}NR>1{print $0}' > METMR.txt
 
 
  
