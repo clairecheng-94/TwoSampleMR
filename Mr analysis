@@ -1,0 +1,4 @@
+df <- fread('/home/cfc85413/PUFAS/ieu.out.tsv', header=TRUE, sep="\t")
+
+dv<- fread('/home/cfc85413/PUFAS/CConvertP2.out.tsv', header=TRUE, sep="\t")
+
