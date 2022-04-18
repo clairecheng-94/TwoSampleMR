@@ -10,6 +10,9 @@ df <- fread('/home/cfc85413/PUFAS/ieu.out.tsv', header=TRUE, sep="\t")
 #Omega 3 data table
 dv<- fread('/home/cfc85413/PUFAS/CConvertP2.out.tsv', header=TRUE, sep="\t") 
 
+#Filter out any insignifcant P values
+exposure_dat <- extract_instruments()
+
 #Reading Exposure data 
 exposireO3<-read_exposure_data(filename ='/home/cfc85413/PUFAS/CConvertP2.out.tsv',
   sep = "\t" ,snp_col = "SNP",  
