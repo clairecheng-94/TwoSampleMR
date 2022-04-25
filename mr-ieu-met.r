@@ -10,8 +10,7 @@ df <- fread('/home/cfc85413/PUFAS/ieu.out.tsv', header=TRUE, sep="\t")
 #Omega 3 data table
 dv<- fread('/home/cfc85413/PUFAS/CConvertP2.out.tsv', header=TRUE, sep="\t") 
 
-#Filter out any insignifcant P values
-exposure_dat <- extract_instruments()
+
 
 #Reading Exposure data 
 exposireO3<-read_exposure_data(filename ='/home/cfc85413/PUFAS/CConvertP2.out.tsv',
@@ -24,6 +23,10 @@ exposireO3<-read_exposure_data(filename ='/home/cfc85413/PUFAS/CConvertP2.out.ts
   pval_col = "P",
   samplesize_col = 114999) 
   
+#Clump Data
+
+
+#Used clump data in the read_outcome_data 
 outcome_dat <- read_outcome_data(snps = exposireO3$SNP,filename = '/home/cfc85413/PUFAS/ieu.out.tsv', sep = "\t" ,snp_col = "SNP",   
   beta_col ="BETA",  
   se_col = "SE", 
