@@ -1,3 +1,6 @@
+#LOAD R 
+ml R/4.1.3-foss-2020b
+
 #LOAD PACKAGES 
 library(TwoSampleMR)
 library(data.table)
