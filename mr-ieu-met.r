@@ -41,7 +41,10 @@ outcome_dat <- read_outcome_data(snps = clump_data$SNP,filename = '/home/cfc8541
   samplesize_col = 82315)
   
  #Harmonising the data
- res<-harmonise_data(exposireO3, outcome_dat)
+ res<-harmonise_data(exposireO3, outcome_dat) 
+
+#MR function 
+res <- mr(res)
 
 #sensitivity analysis 
  mr_heterogeneity(res)
