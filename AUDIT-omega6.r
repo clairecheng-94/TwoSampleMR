@@ -20,14 +20,26 @@ exposure_dat<- fread('/scratch/cfc85413/PUFAS/UKB_Omega_6_pct.a1effect.munge.rmI
 
 #read the exposure data
 exposure03<-read_exposure_data(filename ='/scratch/cfc85413/PUFAS/UKB_Omega_6_pct.a1effect.munge.rmInDels.uniq.tsv.gz',
-+ sep = "\t" ,snp_col = "SNP",  
-+   beta_col ="BETA", 
-+   se_col = "SE", 
-+ effect_allele_col = "A1",
-+ other_allele_col = "A2",
-+ eaf_col = "FRQ",
-+ pval_col = "P",
-+ samplesize_col = 1052486)
+ sep = "\t" ,snp_col = "SNP",  
+ beta_col ="BETA", 
+ se_col = "SE", 
+ effect_allele_col = "A1",
+ other_allele_col = "A2",
+ eaf_col = "FRQ",
+ pval_col = "P",
+ samplesize_col = 1052486)
 
 #Clump data
  clump_data<-fread('UKB_Omega_6_pct.a1effect.munge.rmInDels.uniq.tsv.gz', header=TRUE, sep="\t")
+
+#Using clumped data in the read_outcome_data function 
+outcome_dat <- read_outcome_data(snps = clump_data$SNP,filename = '/scratch/cfc85413/PUFAS/AUDIT_C_30336701.a1effect.munge.rmInDels.uniq.tsv.gz', sep="\t", snp_col= "SNP",
+ beta_col ="BETA",
+ se_col = "SE", 
+ effect_allele_col = "A1",
+ other_allele_col = "A2",
+ eaf_col = "INFO",
+ pval_col = "P",
+ samplesize_col =1567153)
+
+
