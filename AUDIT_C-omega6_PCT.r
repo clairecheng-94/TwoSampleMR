@@ -22,31 +22,15 @@ exposure_dat<- fread('/scratch/cfc85413/PUFAS/UKB_Omega_6_pct.a1effect.munge.rmI
 
 #read the exposure data
 #filename can be the variant that has already been set 
-exposure03<-read_exposure_data(filename ='/scratch/cfc85413/PUFAS/UKB_Omega_6_pct.a1effect.munge.rmInDels.uniq.tsv.gz',
- sep = "\t" ,snp_col = "SNP",  
- beta_col ="BETA", 
- se_col = "SE", 
- effect_allele_col = "A1",
- other_allele_col = "A2",
- eaf_col = "FRQ",
- pval_col = "P",
-#fix sample size, located in power point 
- samplesize_col = 114999)
+exposure03<-read_exposure_data(filename ='/scratch/cfc85413/PUFAS/UKB_Omega_6_pct.a1effect.munge.rmInDels.uniq.tsv.gz', sep = "\t" , snp_col = "SNP", beta_col ="BETA",  se_col = "SE",effect_allele_col = "A1",  other_allele_col = "A2", eaf_col = "FRQ",pval_col = "P", samplesize_col = 114999)
 
 #Filter out the p value by lower than 5e-8 (GWAS significant threshold) 
-sigificant_exposure <- filter(exposure03, "P" < 5e-8) 
+sigificant_exposure <- filter(exposure03, exposure03$p.valexposure < 5e-8) 
 
 
 #Clump data: read the exposure data 
-clump_dat <- clump_data(
-  significant_exposure,
-  clump_kb = 10000,
-  clump_r2 = 0.001,
-  clump_p1 = 5e-8,
-  clump_p2 = 5e-8,
-  pop = "EUR"
- 
- )
+clump_dat <- clump_data(sigificant_exposure,  clump_kb = 10000, clump_r2 = 0.001,  clump_p1 = 5e-8,  clump_p2 = 5e-8, pop= "EUR")
+  
 
 #Using clumped data in the read_outcome_data function, this file does not have allele frequencey, still proceed forth 
 outcome_dat <- read_outcome_data(snps = clump_dat$SNP,filename = '/scratch/cfc85413/PUFAS/AUDIT_C_30336701.a1effect.munge.rmInDels.uniq.tsv.gz', sep="\t", snp_col= "SNP",
