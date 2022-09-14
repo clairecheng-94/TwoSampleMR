@@ -13,13 +13,6 @@ library(TwoSampleMR)
 library(data.table)
 library (dplyr) #make sure to load this one especially 
 
-#choose either one of the options: fread or read_exposure_data
-#read the outcome data
-outcome_dat <- fread('')
-
-#read the exposure data
-exposure_dat<- fread('/scratch/cfc85413/PUFAS/UKB_Omega_6_pct.a1effect.munge.rmInDels.uniq.tsv.gz')
-
 #read the exposure data
 #filename can be the variant that has already been set 
 exposure03<-read_exposure_data(filename ='/scratch/cfc85413/PUFAS/UKB_Omega_6_pct.a1effect.munge.rmInDels.uniq.tsv.gz', clump=FALSE, sep = "\t" , snp_col = "SNP", beta_col ="BETA",  se_col = "SE",effect_allele_col = "A1",  other_allele_col = "A2", eaf_col = "FRQ",pval_col = "P", chr_col="CHR", pos_col="BP")
@@ -47,6 +40,9 @@ names(res_TRUE1)[names(res_TRUE1) == 'id.exposure']<- "Exposure"
 names(res_TRUE1)[names(res_TRUE1)== 'id.outcome'] <- "Outcome"
 
 #Do Mr
+res<- mr(es_TRUE,parameters = default_parameters(), method_list = subset(mr_method_list(), use_by_default)$obj)
+
+#sensitivity analysis 
 
 
 
