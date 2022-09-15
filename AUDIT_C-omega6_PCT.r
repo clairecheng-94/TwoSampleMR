@@ -40,9 +40,13 @@ res_leave<-mr_leaveoneout(res, parameters = default_parameters(), method = mr_iv
 #Yitang's removal of genetic instruments, this filters out the new column of 'MR_Keep', you want to keep the TRUE data 
 res_true<-filter(res, (mr_keep.exposure + mr_keep + mr_keep.outcome) > 0)
              
-#Rename the exposure ID and the outcome ID to the Omega 6 and AUDI_C    
-names(res_TRUE1)[names(res_TRUE1) == 'id.exposure']<- "Exposure"
-names(res_TRUE1)[names(res_TRUE1)== 'id.outcome'] <- "Outcome"
+#Rename the exposure ID and the outcome ID to the Omega 6 and AUDI_C within rows 
+res[res == "UXYMpf"] <- "Omega-6.pct"
+res[res== "vOCEqc"] <- "AUDIT_C"
+
+#change names for exposure and outcome
+names(res)[names(res)== 'outcome'] <- "AUDIT_C"
+names(res)[names(res)== 'exposure'] <- "Omega-6.pct"
 
 #Do Mr
 res<- mr(es_TRUE,parameters = default_parameters(), method_list = subset(mr_method_list(), use_by_default)$obj)
