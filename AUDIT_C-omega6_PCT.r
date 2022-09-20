@@ -32,13 +32,16 @@ outcome_dat <- read_outcome_data(snps = clump_dat$SNP,filename = '/scratch/cfc85
 #harmonize data 
 res<-harmonise_data(clump_dat, outcome_dat) 
 
+
+
 #Sensitively analysis 
 res_heterogenity<- mr_heterogeneity(res, parameters = default_parameters(), method_list = subset(mr_method_list(), heterogeneity_test & use_by_default)$obj) 
 res_ple<-mr_pleiotropy_test(res)
 res_leave<-mr_leaveoneout(res, parameters = default_parameters(), method = mr_ivw)
 
 #Yitang's removal of genetic instruments, this filters out the new column of 'MR_Keep', you want to keep the TRUE data 
-res_true<-filter(res, (mr_keep.exposure + mr_keep + mr_keep.outcome) > 0)
+##not correct res_true<-filter(res, (mr_keep.exposure + mr_keep + mr_keep.outcome) > 0)
+res=res[res$mr_keep==TRUE,]
              
 #Rename the exposure ID and the outcome ID to the Omega 6 and AUDI_C within rows 
 res[res == "UXYMpf"] <- "Omega-6.pct"
