@@ -52,7 +52,7 @@ names(res)[names(res)== 'outcome'] <- "AUDIT_C"
 names(res)[names(res)== 'exposure'] <- "Omega-6.pct"
 
 #Do Mr
-res<- mr(es_TRUE,parameters = default_parameters(), method_list = subset(mr_method_list(), use_by_default)$obj)
+res<- mr(res,parameters = default_parameters(), method_list = subset(mr_method_list(), use_by_default)$obj)
 
 #plots 
 ##funnel plot 
