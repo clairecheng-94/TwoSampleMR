@@ -32,8 +32,6 @@ outcome_dat <- read_outcome_data(snps = clump_dat$SNP,filename = '/scratch/cfc85
 #harmonize data 
 res<-harmonise_data(clump_dat, outcome_dat) 
 
-
-
 #Sensitively analysis 
 res_heterogenity<- mr_heterogeneity(res, parameters = default_parameters(), method_list = subset(mr_method_list(), heterogeneity_test & use_by_default)$obj) 
 res_ple<-mr_pleiotropy_test(res)
@@ -41,45 +39,44 @@ res_leave<-mr_leaveoneout(res, parameters = default_parameters(), method = mr_iv
 
 #Yitang's removal of genetic instruments, this filters out the new column of 'MR_Keep', you want to keep the TRUE data 
 ##not correct res_true<-filter(res, (mr_keep.exposure + mr_keep + mr_keep.outcome) > 0)
-res=res[res$mr_keep==TRUE,]
+res<-res[res$mr_keep==TRUE,]
              
 #Rename the exposure ID and the outcome ID to the Omega 6 and AUDI_C within rows 
-res[res == "UXYMpf"] <- "Omega-6.pct"
-res[res== "vOCEqc"] <- "AUDIT_C"
+#the IDs change so be aware of that 
+res[res == " "] <- "Omega-6.pct"
+res[res== " "] <- "AUDIT_C"
 
 #change names for exposure and outcome
-names(res)[names(res)== 'outcome'] <- "AUDIT_C"
-names(res)[names(res)== 'exposure'] <- "Omega-6.pct"
-
-#Do Mr
-res<- mr(res,parameters = default_parameters(), method_list = subset(mr_method_list(), use_by_default)$obj)
+res$exposure <- "Omega-6.pct"
+res$outcome <- "AUDIT_C"
 
 #plots 
-##funnel plot 
+
 res_singlesnap<-mr_singlesnp(res, parameters = default_parameters(), single_method = "mr_wald_ratio", all_method = c("mr_ivw", "mr_egger_regression"))
-mr_funnel_plot(res_singlesnap)
+#funnel plot
 pdf("AUDIT_C-OMEGA6_PCT.funnelplot.pdf")
+mr_funnel_plot(res_singlesnap)
 dev.off()
 
 ##forest plot 
-forest_plot<-mr_forest_plot(res_singlesnap, parameters = default_parameters(),single_method = "mr_wald_ratio",all_method = c("mr_ivw", "mr_egger_regression"))
 pdf("AUDIT_C-OMEGA6_PCT.forestplot.pdf")
+forest_plot<-mr_forest_plot(res_singlesnap, parameters = default_parameters(),single_method = "mr_wald_ratio",all_method = c("mr_ivw", "mr_egger_regression"))
 dev.off()
- ##leave one out 
+
+##leave one out 
 res_leaveone<-mr_leaveoneout(res,parameters = default_parameters(), method = mr_ivw)
-res_leaveone_plot<-mr_leaveoneout_plot(res_leaveone)
 pdf("AUDIT_C-OMEGA6_PCT.leaveoneoutplot.pdf")
+res_leaveone_plot<-mr_leaveoneout_plot(res_leaveone)
 dev.off()
 
 #scatter plot 
 z <- exposure_dat[ ,("beta.exposure")]
 y <- outcome_dat[ ,("beta.outcome")]
+pdf("AUDIT_C-OMEGA6_PCT.SCATTERPLOT.pdf")
 C <-plot(z, y, main = "AUDIT_C vs Omega6_PCT", xlab = "Omega6 beta values", ylab = "AUDIT_C beta values", pch=19, frame= FALSE)
 abline(lm (z~y, data= C), col="blue")
-pdf("AUDIT_C-OMEGA6_PCT.SCATTERPLOT.pdf")
 dev.off()
 
-
-
-
+#Do Mr
+mr_res<- mr(res,parameters = default_parameters(), method_list = subset(mr_method_list(), use_by_default)$obj)
 
