@@ -49,17 +49,19 @@ res_leave<-mr_leaveoneout(res, parameters = default_parameters(), method = mr_iv
 #plots 
 ##funnel plot 
 res_singlesnap<-mr_singlesnp(res, parameters = default_parameters(), single_method = "mr_wald_ratio", all_method = c("mr_ivw", "mr_egger_regression"))
+
+#funnel plot
+pdf("REVERSE_AUDIT_C-OMEGA6_PCT.funnelplot.pdf")
 mr_funnel_plot(res_singlesnap)
-pdf("AUDIT_C-OMEGA6_PCT.funnelplot.pdf")
 dev.off()
 
 ##forest plot 
+pdf("REVERSE_AUDIT_C-OMEGA6_PCT.forestplot.pdf")
 forest_plot<-mr_forest_plot(res_singlesnap, parameters = default_parameters(),single_method = "mr_wald_ratio",all_method = c("mr_ivw", "mr_egger_regression"))
-pdf("AUDIT_C-OMEGA6_PCT.forestplot.pdf")
 dev.off()
 
 ##leave one out 
-pdf("AUDIT_C-OMEGA6_PCT.leaveoneoutplot.pdf")
+pdf("REVERSE_AUDIT_C-OMEGA6_PCT.leaveoneoutplot.pdf")
 res_leaveone<-mr_leaveoneout(res,parameters = default_parameters(), method = mr_ivw)
 res_leaveone_plot<-mr_leaveoneout_plot(res_leaveone)
 dev.off()
@@ -68,6 +70,7 @@ dev.off()
 mr_res<- mr(res,parameters = default_parameters(), method_list = subset(mr_method_list(), use_by_default)$obj) 
 
 #scatter plot 
+pdf("REVERSE_AUDIT_C-OMEGA6_PCT.SCATTERPLOT.pdf")
 z <- exposure_dat[ ,("beta.exposure")]
 y <- outcome_dat[ ,("beta.outcome")]
 C <-plot(z, y, main = "AUDIT_C vs Omega6_PCT", xlab = "Omega6 beta values", ylab = "AUDIT_C beta values", pch=19, frame= FALSE)
