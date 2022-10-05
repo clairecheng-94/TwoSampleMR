@@ -30,7 +30,7 @@ outcome_dat <- read_outcome_data(snps = clump_dat$SNP,filename = '/scratch/cfc85
 
 
 #harmonize data 
-res<-harmonise_data(clump_dat, outcome_dat) 
+harmonise_res<-harmonise_data(clump_dat, outcome_dat) 
 
 #Sensitively analysis 
 res_heterogenity<- mr_heterogeneity(res, parameters = default_parameters(), method_list = subset(mr_method_list(), heterogeneity_test & use_by_default)$obj) 
@@ -52,6 +52,7 @@ res$outcome <- "AUDIT_C"
 #plots 
 
 res_singlesnap<-mr_singlesnp(res, parameters = default_parameters(), single_method = "mr_wald_ratio", all_method = c("mr_ivw", "mr_egger_regression"))
+
 #funnel plot
 pdf("AUDIT_C-OMEGA6_PCT.funnelplot.pdf")
 mr_funnel_plot(res_singlesnap)
@@ -68,14 +69,15 @@ pdf("AUDIT_C-OMEGA6_PCT.leaveoneoutplot.pdf")
 res_leaveone_plot<-mr_leaveoneout_plot(res_leaveone)
 dev.off()
 
+
+#Do Mr
+mr_res<- mr(res,parameters = default_parameters(), method_list = subset(mr_method_list(), use_by_default)$obj) 
+
 #scatter plot 
-z <- exposure_dat[ ,("beta.exposure")]
+z <- clump_dat[ ,("beta.exposure")]
 y <- outcome_dat[ ,("beta.outcome")]
 pdf("AUDIT_C-OMEGA6_PCT.SCATTERPLOT.pdf")
 C <-plot(z, y, main = "AUDIT_C vs Omega6_PCT", xlab = "Omega6 beta values", ylab = "AUDIT_C beta values", pch=19, frame= FALSE)
 abline(lm (z~y, data= C), col="blue")
 dev.off()
-
-#Do Mr
-mr_res<- mr(res,parameters = default_parameters(), method_list = subset(mr_method_list(), use_by_default)$obj)
 
