@@ -29,6 +29,18 @@ outcome_dat <- read_outcome_data(snps = clump_dat$SNP,filename = '/scratch/cfc85
 #harmonize data 
 res<-harmonise_data(clump_dat, outcome_dat) 
 
+
+#Yitang's removal of genetic instruments, this filters out the new column of 'MR_Keep', you want to keep the TRUE data 
+##not correct res_true<-filter(res, (mr_keep.exposure + mr_keep + mr_keep.outcome) > 0)
+res<-res[res$mr_keep==TRUE,]
+
+#Rename the exposure ID and the outcome ID to the Omega 6 and AUDI_C within rows 
+res$id.exposure <-"AUDIT_C" 
+res$id.outcome <- "Omega-6.pct"
+
+res$exposure <- "AUDIT_C"
+res$outcome <- "Omega-6.pct"
+
 #Sensitively analysis 
 res_heterogenity<- mr_heterogeneity(res, parameters = default_parameters(), method_list = subset(mr_method_list(), heterogeneity_test & use_by_default)$obj) 
 res_ple<-mr_pleiotropy_test(res)
@@ -45,11 +57,15 @@ dev.off()
 forest_plot<-mr_forest_plot(res_singlesnap, parameters = default_parameters(),single_method = "mr_wald_ratio",all_method = c("mr_ivw", "mr_egger_regression"))
 pdf("AUDIT_C-OMEGA6_PCT.forestplot.pdf")
 dev.off()
- ##leave one out 
+
+##leave one out 
+pdf("AUDIT_C-OMEGA6_PCT.leaveoneoutplot.pdf")
 res_leaveone<-mr_leaveoneout(res,parameters = default_parameters(), method = mr_ivw)
 res_leaveone_plot<-mr_leaveoneout_plot(res_leaveone)
-pdf("AUDIT_C-OMEGA6_PCT.leaveoneoutplot.pdf")
 dev.off()
+
+#Do Mr
+mr_res<- mr(res,parameters = default_parameters(), method_list = subset(mr_method_list(), use_by_default)$obj) 
 
 #scatter plot 
 z <- exposure_dat[ ,("beta.exposure")]
