@@ -57,7 +57,7 @@ dev.off()
 
 ##forest plot 
 pdf("REVERSE_AUDIT_C-OMEGA6_PCT.forestplot.pdf")
-forest_plot<-mr_forest_plot(res_singlesnap, parameters = default_parameters(),single_method = "mr_wald_ratio",all_method = c("mr_ivw", "mr_egger_regression"))
+forest_plot<-mr_forest_plot(res_singlesnap,  exponentiate = FALSE)
 dev.off()
 
 ##leave one out 
@@ -73,9 +73,8 @@ mr_res<- mr(res,parameters = default_parameters(), method_list = subset(mr_metho
 pdf("REVERSE_AUDIT_C-OMEGA6_PCT.SCATTERPLOT.pdf")
 z <- exposure_dat[ ,("beta.exposure")]
 y <- outcome_dat[ ,("beta.outcome")]
-C <-plot(z, y, main = "AUDIT_C vs Omega6_PCT", xlab = "Omega6 beta values", ylab = "AUDIT_C beta values", pch=19, frame= FALSE)
+C <-plot(z, y, main = " REVERSE AUDIT_C vs Omega6_PCT", xlab = "Omega6 beta values", ylab = "AUDIT_C beta values", pch=19, frame= FALSE)
 abline(lm (z~y, data= C), col="blue")
-pdf("AUDIT_C-OMEGA6_PCT.SCATTERPLOT.pdf")
 dev.off()
 
 
