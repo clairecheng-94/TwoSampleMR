@@ -14,9 +14,9 @@ library(data.table)
 library (dplyr) #make sure to load this one especially 
 
 #read the exposure data
-exposure_dat<-read_exposure_data(filename ='/scratch/cfc85413/PUFAS/AUDIT_C_30336701.a1effect.munge.rmInDels.uniq.tsv.gz', clump=FALSE, sep = "\t" , snp_col = "SNP", beta_col ="BETA",  se_col = "SE",effect_allele_col = "A1",  other_allele_col = "A2", eaf_col = "FRQ",pval_col = "P", chr_col="CHR", pos_col="BP")
+exposure_dat<-read_exposure_data(filename ='/scratch/cfc85413/PUFAS/AUDIT_C_30336701.a1effect.munge.rmInDels.uniq.tsv.gz', clump=FALSE, sep = "\t" , snp_col = "SNP", beta_col ="BETA",  se_col = "SE",effect_allele_col = "A1",  other_allele_col = "A2",pval_col = "P", chr_col="CHR", pos_col="BP")
 
-Filter out the p value by lower than 5e-8 (GWAS significant threshold) 
+#Filter out the p value by lower than 5e-8 (GWAS significant threshold) 
 sigificant_exposure <- filter(exposure_dat,pval.exposure <= 5e-8) 
 
 
@@ -24,7 +24,7 @@ sigificant_exposure <- filter(exposure_dat,pval.exposure <= 5e-8)
 clump_dat <- clump_data(sigificant_exposure,  clump_kb = 10000, clump_r2 = 0.001,  clump_p1 = 5e-8,  clump_p2 = 5e-8, pop= "EUR")
 
 #Using clumped data in the read_outcome_data function, this file does not have allele frequencey, still proceed forth 
-outcome_dat <- read_outcome_data(snps = clump_dat$SNP,filename = '/scratch/cfc85413/PUFAS/UKB_Omega_6_pct.a1effect.munge.rmInDels.uniq.tsv.gz', sep="\t", snp_col= "SNP",  beta_col ="BETA", se_col = "SE", effect_allele_col = "A1",other_allele_col = "A2",pval_col = "P", chr_col="CHR",pos_col= "BP")
+outcome_dat <- read_outcome_data(snps = clump_dat$SNP,filename = '/scratch/cfc85413/PUFAS/UKB_Omega_6_pct.a1effect.munge.rmInDels.uniq.tsv.gz', sep="\t", snp_col= "SNP",  beta_col ="BETA", se_col = "SE", effect_allele_col = "A1",other_allele_col = "A2",eaf_col = "FRQ",pval_col = "P", chr_col="CHR",pos_col= "BP")
 
 #harmonize data 
 res<-harmonise_data(clump_dat, outcome_dat) 
