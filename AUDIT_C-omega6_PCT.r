@@ -42,9 +42,8 @@ res_leave<-mr_leaveoneout(res, parameters = default_parameters(), method = mr_iv
 res<-res[res$mr_keep==TRUE,]
              
 #Rename the exposure ID and the outcome ID to the Omega 6 and AUDI_C within rows 
-#the IDs change so be aware of that 
-res[res == " "] <- "Omega-6.pct"
-res[res== " "] <- "AUDIT_C"
+res$id.exposure <- "Omega-6.pct"
+res$id.outcome <- "AUDIT_C"
 
 #change names for exposure and outcome
 res$exposure <- "Omega-6.pct"
