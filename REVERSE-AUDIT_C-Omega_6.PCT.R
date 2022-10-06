@@ -71,7 +71,7 @@ mr_res<- mr(res,parameters = default_parameters(), method_list = subset(mr_metho
 
 #scatter plot 
 pdf("REVERSE_AUDIT_C-OMEGA6_PCT.SCATTERPLOT.pdf")
-z <- exposure_dat[ ,("beta.exposure")]
+z <- clump_dat[ ,("beta.exposure")]
 y <- outcome_dat[ ,("beta.outcome")]
 C <-plot(z, y, main = " REVERSE AUDIT_C vs Omega6_PCT", xlab = "Omega6 beta values", ylab = "AUDIT_C beta values", pch=19, frame= FALSE)
 abline(lm (z~y, data= C), col="blue")
