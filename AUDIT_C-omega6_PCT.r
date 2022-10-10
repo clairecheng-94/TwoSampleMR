@@ -33,13 +33,14 @@ outcome_dat <- read_outcome_data(snps = clump_dat$SNP,filename = '/scratch/cfc85
 harmonise_res<-harmonise_data(clump_dat, outcome_dat) 
 
 #Sensitively analysis 
-res_heterogenity<- mr_heterogeneity(res, parameters = default_parameters(), method_list = subset(mr_method_list(), heterogeneity_test & use_by_default)$obj) 
-res_ple<-mr_pleiotropy_test(res)
-res_leave<-mr_leaveoneout(res, parameters = default_parameters(), method = mr_ivw)
+res_heterogenity<- mr_heterogeneity(harmonise_res, parameters = default_parameters(), method_list = subset(mr_method_list(), heterogeneity_test & use_by_default)$obj) 
+res_ple<-mr_pleiotropy_test(harmonise_res)
+res_leave<-mr_leaveoneout(harmonise_res, parameters = default_parameters(), method = mr_ivw)
+
 
 #Yitang's removal of genetic instruments, this filters out the new column of 'MR_Keep', you want to keep the TRUE data 
 ##not correct res_true<-filter(res, (mr_keep.exposure + mr_keep + mr_keep.outcome) > 0)
-res<-res[res$mr_keep==TRUE,]
+res<-harmonise_res[harmonise_res$mr_keep==TRUE,]
              
 #Rename the exposure ID and the outcome ID to the Omega 6 and AUDI_C within rows 
 res$id.exposure <- "Omega-6.pct"
@@ -51,7 +52,7 @@ res$outcome <- "AUDIT_C"
 
 #plots 
 
-res_singlesnap<-mr_singlesnp(res, parameters = default_parameters(), single_method = "mr_wald_ratio", all_method = c("mr_ivw", "mr_egger_regression"))
+res_singlesnap<-mr_singlesnp(harmonise_res, parameters = default_parameters(), single_method = "mr_wald_ratio", all_method = c("mr_ivw", "mr_egger_regression", "mr_weighted_median", "mr_weighted_mode"))
 
 #funnel plot
 pdf("AUDIT_C-OMEGA6_PCT.funnelplot.pdf")
@@ -60,13 +61,12 @@ dev.off()
 
 ##forest plot 
 pdf("AUDIT_C-OMEGA6_PCT.forestplot.pdf")
-forest_plot<-mr_forest_plot(res_singlesnap, parameters = default_parameters(),single_method = "mr_wald_ratio",all_method = c("mr_ivw", "mr_egger_regression"))
+mr_forest_plot(res_singlesnap, exponentiate = FALSE)
 dev.off()
 
 ##leave one out 
-res_leaveone<-mr_leaveoneout(res,parameters = default_parameters(), method = mr_ivw)
 pdf("AUDIT_C-OMEGA6_PCT.leaveoneoutplot.pdf")
-res_leaveone_plot<-mr_leaveoneout_plot(res_leaveone)
+mr_leaveoneout_plot(res_leave)
 dev.off()
 
 
