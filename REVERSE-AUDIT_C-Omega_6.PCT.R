@@ -48,7 +48,36 @@ res_leave<-mr_leaveoneout(harmonized_res, parameters = default_parameters(), met
 
 #plots 
 ##funnel plot 
-res_singlesnap<-mr_singlesnp(harmonized_res, parameters = default_parameters(), single_method = "mr_wald_ratio", all_method = c("mr_ivw", "mr_egger_regression"))
+res_singlesnap<-mr_singlesnp(harmonized_res, parameters = default_parameters(), single_method = "mr_wald_ratio", all_method = c("mr_ivw", "mr_egger_regression", "mr_weighted_median", "mr_weighted_mode"))
+
+#funnel plot
+pdf("REVERSE_AUDIT_C-OMEGA6_PCT.funnelplot.pdf")
+mr_funnel_plot(res_singlesnap)
+dev.off()
+
+##forest plot 
+pdf("REVERSE_AUDIT_C-OMEGA6_PCT.forestplot.pdf")
+mr_forest_plot(res_singlesnap, exponentiate = FALSE)
+dev.off()
+
+##leave one out 
+pdf("REVERSE_AUDIT_C-OMEGA6_PCT.leaveoneoutplot.pdf")
+mr_leaveoneout_plot(res_leave)
+dev.off()
+
+
+#Do Mr
+mr_res<- mr(res,parameters = default_parameters(), method_list = subset(mr_method_list(), use_by_default)$obj) 
+
+#scatter plot 
+z <- clump_dat[ ,("beta.exposure")]
+y <- outcome_dat[ ,("beta.outcome")]
+pdf("REVERSE_AUDIT_C-OMEGA6_PCT.SCATTERPLOT.pdf")
+C <-plot(z, y, main = "AUDIT_C vs Omega6_PCT", ylab = "Omega6 beta values", xlab = "AUDIT_C beta values", pch=19, frame= FALSE)
+abline(lm (z~y, data= C), col="blue")
+dev.off()
+
+
 
 #funnel plot
 pdf("REVERSE_AUDIT_C-OMEGA6_PCT.funnelplot.pdf")
