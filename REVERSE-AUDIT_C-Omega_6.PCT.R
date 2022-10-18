@@ -67,17 +67,12 @@ dev.off()
 
 
 #Do Mr
-mr_res<- mr(res,parameters = default_parameters(), method_list = subset(mr_method_list(), use_by_default)$obj) 
+mr_res<- mr(harmonized_res,parameters = default_parameters(), method_list = subset(mr_method_list(), use_by_default)$obj) 
 
 #scatter plot 
-z <- clump_dat[ ,("beta.exposure")]
-y <- outcome_dat[ ,("beta.outcome")]
 pdf("REVERSE_AUDIT_C-OMEGA6_PCT.SCATTERPLOT.pdf")
-C <-plot(z, y, main = "AUDIT_C vs Omega6_PCT", ylab = "Omega6 beta values", xlab = "AUDIT_C beta values", pch=19, frame= FALSE)
-abline(lm (z~y, data= C), col="blue")
+mr_scatter_plot(mr_res, harmonized_res)
 dev.off()
-
-
 
 #funnel plot
 pdf("REVERSE_AUDIT_C-OMEGA6_PCT.funnelplot.pdf")
@@ -97,13 +92,7 @@ dev.off()
 #Do Mr
 mr_res<- mr(harmonized_res,parameters = default_parameters(), method_list = subset(mr_method_list(), use_by_default)$obj) 
 
-#scatter plot 
-pdf("REVERSE_AUDIT_C-OMEGA6_PCT.SCATTERPLOT.pdf")
-z <- clump_dat[ ,("beta.exposure")]
-y <- outcome_dat[ ,("beta.outcome")]
-C <-plot(z, y, main = " REVERSE AUDIT_C vs Omega6_PCT", xlab = "Omega6 beta values", ylab = "AUDIT_C beta values", pch=19, frame= FALSE)
-abline(lm (z~y, data= C), col="blue")
-dev.off()
+
 
 
 
