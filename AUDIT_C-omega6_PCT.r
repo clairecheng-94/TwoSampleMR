@@ -34,6 +34,10 @@ harmonise_res<-harmonise_data(clump_dat, outcome_dat)
 
 #Sensitively analysis 
 res_heterogenity<- mr_heterogeneity(harmonise_res, parameters = default_parameters(), method_list = subset(mr_method_list(), heterogeneity_test & use_by_default)$obj) 
+write.table(harmonise_res, file = "AUDIT_C_ON_OMEGA-6_PCT.heterogenity.table", append = FALSE, quote = TRUE, sep = " ",
+            eol = "\n", na = "NA", dec = ".", row.names = TRUE,
+            col.names = TRUE, qmethod = c("escape", "double"),
+            fileEncoding = "")
 res_ple<-mr_pleiotropy_test(harmonise_res)
 res_leave<-mr_leaveoneout(harmonise_res, parameters = default_parameters(), method = mr_ivw)
 
@@ -43,16 +47,23 @@ res_leave<-mr_leaveoneout(harmonise_res, parameters = default_parameters(), meth
 res<-harmonise_res[harmonise_res$mr_keep==TRUE,]
              
 #Rename the exposure ID and the outcome ID to the Omega 6 and AUDI_C within rows 
-res$id.exposure <- "Omega-6.pct"
-res$id.outcome <- "AUDIT_C"
+harmonise_res$id.exposure <- "Omega-6.pct"
+harmonise_res$id.outcome <- "AUDIT_C"
 
 #change names for exposure and outcome
-res$exposure <- "Omega-6.pct"
-res$outcome <- "AUDIT_C"
-
+harmonise_res$exposure <- "Omega-6.pct"
+harmonise_res$outcome <- "AUDIT_C"
+write.table(harmonise_res, file = "AUDIT_C_ON_OMEGA-6_PCT.harmonized.table", append = FALSE, quote = TRUE, sep = " ",
+            eol = "\n", na = "NA", dec = ".", row.names = TRUE,
+            col.names = TRUE, qmethod = c("escape", "double"),
+            fileEncoding = "")
 #plots 
 
 res_singlesnap<-mr_singlesnp(harmonise_res, parameters = default_parameters(), single_method = "mr_wald_ratio", all_method = c("mr_ivw", "mr_egger_regression", "mr_weighted_median", "mr_weighted_mode"))
+write.table(harmonise_res, file = "AUDIT_C_ON_OMEGA-6_PCT.MR.table", append = FALSE, quote = TRUE, sep = " ",
+            eol = "\n", na = "NA", dec = ".", row.names = TRUE,
+            col.names = TRUE, qmethod = c("escape", "double"),
+            fileEncoding = "")
 
 #funnel plot
 pdf("AUDIT_C-OMEGA6_PCT.funnelplot.pdf")
@@ -74,10 +85,6 @@ dev.off()
 mr_res<- mr(res,parameters = default_parameters(), method_list = subset(mr_method_list(), use_by_default)$obj) 
 
 #scatter plot 
-z <- clump_dat[ ,("beta.exposure")]
-y <- outcome_dat[ ,("beta.outcome")]
 pdf("AUDIT_C-OMEGA6_PCT.SCATTERPLOT.pdf")
-C <-plot(z, y, main = "AUDIT_C vs Omega6_PCT", xlab = "Omega6 beta values", ylab = "AUDIT_C beta values", pch=19, frame= FALSE)
-abline(lm (z~y, data= C), col="blue")
+mr_scatter_plot(mr_res, harmonise_res)
 dev.off()
-
