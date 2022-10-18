@@ -34,17 +34,14 @@ harmonise_res<-harmonise_data(clump_dat, outcome_dat)
 
 #Sensitively analysis 
 res_heterogenity<- mr_heterogeneity(harmonise_res, parameters = default_parameters(), method_list = subset(mr_method_list(), heterogeneity_test & use_by_default)$obj) 
-write.table(harmonise_res, file = "AUDIT_C_ON_OMEGA-6_PCT.heterogenity.table", append = FALSE, quote = TRUE, sep = " ",
-            eol = "\n", na = "NA", dec = ".", row.names = TRUE,
-            col.names = TRUE, qmethod = c("escape", "double"),
-            fileEncoding = "")
+write.table(res_heterogenity, file="AUDIT_C_ON_OMEGA-6_PCT.heterogenity.table", sep="\t", quote=FALSE, col.names=T, row.names=F)
 res_ple<-mr_pleiotropy_test(harmonise_res)
 res_leave<-mr_leaveoneout(harmonise_res, parameters = default_parameters(), method = mr_ivw)
 
 
 #Yitang's removal of genetic instruments, this filters out the new column of 'MR_Keep', you want to keep the TRUE data 
 ##not correct res_true<-filter(res, (mr_keep.exposure + mr_keep + mr_keep.outcome) > 0)
-res<-harmonise_res[harmonise_res$mr_keep==TRUE,]
+harmonise_res<-harmonise_res[harmonise_res$mr_keep==TRUE,]
              
 #Rename the exposure ID and the outcome ID to the Omega 6 and AUDI_C within rows 
 harmonise_res$id.exposure <- "Omega-6.pct"
@@ -60,7 +57,7 @@ write.table(harmonise_res, file = "AUDIT_C_ON_OMEGA-6_PCT.harmonized.table", app
 #plots 
 
 res_singlesnap<-mr_singlesnp(harmonise_res, parameters = default_parameters(), single_method = "mr_wald_ratio", all_method = c("mr_ivw", "mr_egger_regression", "mr_weighted_median", "mr_weighted_mode"))
-write.table(harmonise_res, file = "AUDIT_C_ON_OMEGA-6_PCT.MR.table", append = FALSE, quote = TRUE, sep = " ",
+write.table(mr_res, file = "AUDIT_C_ON_OMEGA-6_PCT.MR.table", append = FALSE, quote = TRUE, sep = " ",
             eol = "\n", na = "NA", dec = ".", row.names = TRUE,
             col.names = TRUE, qmethod = c("escape", "double"),
             fileEncoding = "")
@@ -82,7 +79,7 @@ dev.off()
 
 
 #Do Mr
-mr_res<- mr(res,parameters = default_parameters(), method_list = subset(mr_method_list(), use_by_default)$obj) 
+mr_res<- mr(harmonise_res,parameters = default_parameters(), method_list = subset(mr_method_list(), use_by_default)$obj) 
 
 #scatter plot 
 pdf("AUDIT_C-OMEGA6_PCT.SCATTERPLOT.pdf")
