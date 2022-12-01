@@ -1,6 +1,7 @@
 exposure_name="Omega-3"
 outcome_name="AUDIT_P"
 
+b_Egger=mr_res[mr_res$method=='MR Egger',]$b
 se_Egger=mr_res[mr_res$method=='MR Egger',]$se
 pval_Egger=mr_res[mr_res$method=='MR Egger',]$pval
 b_WMed=mr_res[mr_res$method=='Weighted median',]$b
