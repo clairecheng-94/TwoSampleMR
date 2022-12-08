@@ -27,3 +27,8 @@ header<-c("exposure_name","outcome_name","b_Egger","se_Egger","pval_Egger","b_WM
 
 #for loop to combine files
 for file in `ls *.txt`;do cat $file >> total.csv;done
+
+##############HELPFUL OMEGA-3 LINES###########
+exposure_dat<-read_exposure_data(filename ='/scratch/cfc85413/PUFAS/data/PUFAS/UKB_Omega_3.a1effect.munge.rmInDels.uniq.tsv.gz',clump=FALSE, sep = "\t" , snp_col = "SNP", beta_col ="BETA",  se_col = "SE",effect_allele_col = "A1",  other_allele_col = "A2", eaf_col = "FRQ",pval_col = "P", chr_col="CHR", pos_col="BP")
+harmonise_res$id.exposure <- "Omega-3"
+harmonise_res$exposure <- "Omega-3"
