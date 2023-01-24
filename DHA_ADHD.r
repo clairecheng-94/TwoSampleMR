@@ -17,7 +17,7 @@ clump_dat <- clump_data(sigificant_exposure,  clump_kb = 10000, clump_r2 = 0.001
 
 ## Read Outcome data
  # Full path: /scratch/cfc85413/PUFAS/PSYCH/ADHD_30478444.a1effect.munge.rmInDels.uniq.tsv.gz
-outcome_dat <- read_outcome_data(snps = clump_dat$SNP,filename = '/scratch/cfc85413/PUFAS/PSYCH/ADHD_30478444.a1effect.munge.rmInDels.uniq.tsv.gz',  sep="\t", snp_col= "SNP",  beta_col ="BETA", se_col = "SE", effect_allele_col = "A1",other_allele_col = "A2",pval_col = "P", chr_col="CHR",pos_col= "BP")
+outcome_dat <- read_outcome_data(snps = clump_dat$SNP,filename = '/scratch/cfc85413/PUFAS/PSYCH/ADHD_30478444.a1effect.munge.rmInDels.uniq.tsv.gz',  sep="\t", snp_col= "SNP",  beta_col ="BETA", se_col = "SE", effect_allele_col = "A1",other_allele_col = "A2",pval_col = "P", chr_col="CHR",pos_col= "BP",eaf_col = "FRQ")
 
 ## Harmonise the data 
 harmonise_res<-harmonise_data(clump_dat, outcome_dat)
